@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - haodf@localhost" uuid="54e1c279-549f-4485-a980-702077032c92">
+    <database-info product="MySQL" version="5.6.26" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="haodf"/>
+    <table name="area" schema="" catalog="haodf" type="TABLE">
+      <column name="area_id" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1"/>
+      <column name="area_name" sqlType="VARCHAR" precision="125" scale="0" nullable="true" jdbcType="12"/>
+      <column name="url" sqlType="VARCHAR" precision="125" scale="0" nullable="true" jdbcType="12"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="area_id"/>
+    </table>
+    <table name="disease" schema="" catalog="haodf" type="TABLE">
+      <column name="dis_id" sqlType="VARCHAR" precision="36" scale="0" nullable="false" jdbcType="12"/>
+      <column name="dis_name" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <column name="url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="cat_id" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="cat_name" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="dis_id"/>
+    </table>
+    <table name="disease_cat" schema="" catalog="haodf" type="TABLE">
+      <column name="cat_id" sqlType="VARCHAR" precision="36" scale="0" nullable="false" jdbcType="12"/>
+      <column name="parent_id" sqlType="VARCHAR" precision="36" scale="0" nullable="true" jdbcType="12"/>
+      <column name="cat_name" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <column name="url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="cat_id"/>
+    </table>
+    <table name="doctor" schema="" catalog="haodf" type="TABLE">
+      <column name="doc_id" sqlType="VARCHAR" precision="36" scale="0" nullable="false" jdbcType="12"/>
+      <column name="doc_name" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="home_url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="info_url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="doc_id"/>
+    </table>
+    <table name="hospital" schema="" catalog="haodf" type="TABLE">
+      <column name="hos_id" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1"/>
+      <column name="hos_name" sqlType="VARCHAR" precision="125" scale="0" nullable="true" jdbcType="12"/>
+      <column name="province" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="city" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="hos_id"/>
+    </table>
+    <table name="section" schema="" catalog="haodf" type="TABLE">
+      <column name="sec_id" sqlType="VARCHAR" precision="36" scale="0" nullable="false" jdbcType="12"/>
+      <column name="sec_name" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <column name="url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="sec_id"/>
+    </table>
+  </data-source>
+</component>
