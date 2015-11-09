@@ -18,6 +18,8 @@
       <mapping class="net.hoyoung.haodf.entity.Doctor"/>
     <mapping class="net.hoyoung.haodf.entity.DiseaseCat"/>
     <mapping class="net.hoyoung.haodf.entity.Disease"/>
+    <mapping class="net.hoyoung.haodf.entity.ConsultCat"/>
+    <mapping class="net.hoyoung.haodf.entity.Wenda"/>
 
   </session-factory>
 </hibernate-configuration>

@@ -4,20 +4,22 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url">jdbc:mysql://localhost:3306/haodf?characterEncoding=UTF-8</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/haodf</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
       <property name="connection.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="connection.hbm2ddl.auto">update</property>
       <property name="connection.show_sql">false</property>
       <property name="connection.format_sql">true</property>
       <property name="current_session_context_class">thread</property>
-    <property name="connection.username">root</property>
     <mapping class="net.hoyoung.haodf.entity.Area"/>
     <mapping class="net.hoyoung.haodf.entity.Hospital"/>
     <mapping class="net.hoyoung.haodf.entity.Section"/>
       <mapping class="net.hoyoung.haodf.entity.Doctor"/>
     <mapping class="net.hoyoung.haodf.entity.DiseaseCat"/>
     <mapping class="net.hoyoung.haodf.entity.Disease"/>
+    <mapping class="net.hoyoung.haodf.entity.ConsultCat"/>
+    <mapping class="net.hoyoung.haodf.entity.Wenda"/>
+    <mapping class="net.hoyoung.haodf.entity.Duihua"/>
 
   </session-factory>
 </hibernate-configuration>

@@ -15,6 +15,15 @@
       <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="area_id"/>
     </table>
+    <table name="consult_cat" schema="" catalog="haodf" type="TABLE">
+      <column name="con_cat_id" sqlType="VARCHAR" precision="125" scale="0" nullable="false" jdbcType="12"/>
+      <column name="con_cat_name" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <column name="url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="super_cat_name" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="con_cat_id"/>
+    </table>
     <table name="disease" schema="" catalog="haodf" type="TABLE">
       <column name="dis_id" sqlType="VARCHAR" precision="36" scale="0" nullable="false" jdbcType="12"/>
       <column name="dis_name" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
@@ -23,6 +32,7 @@
       <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="cat_id" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
       <column name="cat_name" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <column name="dis_type" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="dis_id"/>
     </table>
     <table name="disease_cat" schema="" catalog="haodf" type="TABLE">
@@ -43,14 +53,27 @@
       <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="doc_id"/>
     </table>
+    <table name="duihua" schema="" catalog="haodf" type="TABLE">
+      <column name="dui_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="wen_id" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <column name="dui_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="doc_home_url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="doc_id" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <column name="pat_id" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="dui_id"/>
+    </table>
     <table name="hospital" schema="" catalog="haodf" type="TABLE">
-      <column name="hos_id" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1"/>
+      <column name="hos_id" sqlType="CHAR" precision="120" scale="0" nullable="false" jdbcType="1"/>
       <column name="hos_name" sqlType="VARCHAR" precision="125" scale="0" nullable="true" jdbcType="12"/>
       <column name="province" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
       <column name="city" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
       <column name="url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="level" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="hos_id"/>
     </table>
     <table name="section" schema="" catalog="haodf" type="TABLE">
@@ -60,6 +83,15 @@
       <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="sec_id"/>
+    </table>
+    <table name="wenda" schema="" catalog="haodf" type="TABLE">
+      <column name="wen_id" sqlType="VARCHAR" precision="145" scale="0" nullable="false" jdbcType="12"/>
+      <column name="wen_name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="url" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="status" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="con_cat_name" sqlType="VARCHAR" precision="145" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="wen_id"/>
     </table>
   </data-source>
 </component>

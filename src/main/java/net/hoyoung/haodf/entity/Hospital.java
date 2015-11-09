@@ -18,6 +18,17 @@ public class Hospital {
     private String url;
     private Integer status;
     private Date createTime;
+    private String level;
+
+    @Basic
+    @Column(name = "level")
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
 
     @Override
     public String toString() {
@@ -29,6 +40,7 @@ public class Hospital {
                 ", url='" + url + '\'' +
                 ", status=" + status +
                 ", createTime=" + createTime +
+                ", level='" + level + '\'' +
                 '}';
     }
 
