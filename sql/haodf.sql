@@ -1,27 +1,24 @@
--- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
---
--- Host: localhost    Database: haodf
--- ------------------------------------------------------
--- Server version	5.6.26
+/*
+Navicat MySQL Data Transfer
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+Source Server         : local
+Source Server Version : 50626
+Source Host           : localhost:3306
+Source Database       : haodf
 
---
--- Table structure for table `area`
---
+Target Server Type    : MYSQL
+Target Server Version : 50626
+File Encoding         : 65001
 
+Date: 2015-11-10 23:41:07
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for area
+-- ----------------------------
 DROP TABLE IF EXISTS `area`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `area` (
   `area_id` char(32) NOT NULL,
   `area_name` varchar(125) DEFAULT NULL,
@@ -30,15 +27,25 @@ CREATE TABLE `area` (
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`area_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `disease`
---
+-- ----------------------------
+-- Table structure for consult_cat
+-- ----------------------------
+DROP TABLE IF EXISTS `consult_cat`;
+CREATE TABLE `consult_cat` (
+  `con_cat_id` varchar(125) NOT NULL,
+  `con_cat_name` varchar(145) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `super_cat_name` varchar(145) DEFAULT NULL,
+  PRIMARY KEY (`con_cat_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+-- Table structure for disease
+-- ----------------------------
 DROP TABLE IF EXISTS `disease`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `disease` (
   `dis_id` varchar(36) NOT NULL,
   `dis_name` varchar(145) DEFAULT NULL,
@@ -50,15 +57,11 @@ CREATE TABLE `disease` (
   `dis_type` int(1) DEFAULT NULL,
   PRIMARY KEY (`dis_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `disease_cat`
---
-
+-- ----------------------------
+-- Table structure for disease_cat
+-- ----------------------------
 DROP TABLE IF EXISTS `disease_cat`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `disease_cat` (
   `cat_id` varchar(36) NOT NULL,
   `parent_id` varchar(36) DEFAULT NULL,
@@ -68,15 +71,11 @@ CREATE TABLE `disease_cat` (
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`cat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `doctor`
---
-
+-- ----------------------------
+-- Table structure for doctor
+-- ----------------------------
 DROP TABLE IF EXISTS `doctor`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `doctor` (
   `doc_id` varchar(36) NOT NULL,
   `doc_name` varchar(45) DEFAULT NULL,
@@ -86,34 +85,44 @@ CREATE TABLE `doctor` (
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`doc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `hospital`
---
+-- ----------------------------
+-- Table structure for duihua
+-- ----------------------------
+DROP TABLE IF EXISTS `duihua`;
+CREATE TABLE `duihua` (
+  `dui_id` int(11) NOT NULL AUTO_INCREMENT,
+  `wen_id` varchar(145) DEFAULT NULL,
+  `dui_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `doc_home_url` varchar(255) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `doc_id` varchar(145) DEFAULT NULL,
+  `pat_id` varchar(145) DEFAULT NULL,
+  `content` text,
+  PRIMARY KEY (`dui_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+-- Table structure for hospital
+-- ----------------------------
 DROP TABLE IF EXISTS `hospital`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hospital` (
-  `hos_id` char(32) NOT NULL,
+  `hos_id` char(120) NOT NULL,
   `hos_name` varchar(125) DEFAULT NULL,
   `province` varchar(45) DEFAULT NULL,
   `city` varchar(45) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
+  `level` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`hos_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `section`
---
-
+-- ----------------------------
+-- Table structure for section
+-- ----------------------------
 DROP TABLE IF EXISTS `section`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `section` (
   `sec_id` varchar(36) NOT NULL,
   `sec_name` varchar(145) DEFAULT NULL,
@@ -122,15 +131,17 @@ CREATE TABLE `section` (
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`sec_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2015-11-08 19:42:10
+-- ----------------------------
+-- Table structure for wenda
+-- ----------------------------
+DROP TABLE IF EXISTS `wenda`;
+CREATE TABLE `wenda` (
+  `wen_id` varchar(145) NOT NULL,
+  `wen_name` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `con_cat_name` varchar(145) DEFAULT NULL,
+  PRIMARY KEY (`wen_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
