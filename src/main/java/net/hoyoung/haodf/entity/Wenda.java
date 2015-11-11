@@ -17,6 +17,18 @@ public class Wenda {
     private Integer status;
     private Date createTime;
     private String conCatName;
+    private String docId;
+    private String title;
+    private String disease;
+    private String desc;
+    private String wantHelp;
+    private String hospital;
+    private String hosDept;
+    @Basic
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
 
     @Override
     public String toString() {
@@ -27,7 +39,73 @@ public class Wenda {
                 ", status=" + status +
                 ", createTime=" + createTime +
                 ", conCatName='" + conCatName + '\'' +
+                ", docId='" + docId + '\'' +
+                ", title='" + title + '\'' +
+                ", disease='" + disease + '\'' +
+                ", desc='" + desc + '\'' +
+                ", wantHelp='" + wantHelp + '\'' +
+                ", hospital='" + hospital + '\'' +
+                ", hosDept='" + hosDept + '\'' +
                 '}';
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    @Basic
+    @Column(name = "disease")
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
+    }
+    @Basic
+    @Column(name = "desc")
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+    @Basic
+    @Column(name = "want_help")
+    public String getWantHelp() {
+        return wantHelp;
+    }
+
+    public void setWantHelp(String wantHelp) {
+        this.wantHelp = wantHelp;
+    }
+    @Basic
+    @Column(name = "hospital")
+    public String getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(String hospital) {
+        this.hospital = hospital;
+    }
+    @Basic
+    @Column(name = "hos_dept")
+    public String getHosDept() {
+        return hosDept;
+    }
+
+    public void setHosDept(String hosDept) {
+        this.hosDept = hosDept;
+    }
+
+    @Basic
+    @Column(name = "doc_id")
+    public String getDocId() {
+        return docId;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
     }
 
     @Id

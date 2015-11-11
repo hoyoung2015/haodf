@@ -21,6 +21,21 @@ public class Duihua {
     private String patId;
     private String content;
 
+    @Override
+    public String toString() {
+        return "Duihua{" +
+                "duiId=" + duiId +
+                ", wenId='" + wenId + '\'' +
+                ", duiTime=" + duiTime +
+                ", createTime=" + createTime +
+                ", docHomeUrl='" + docHomeUrl + '\'' +
+                ", status=" + status +
+                ", docId='" + docId + '\'' +
+                ", patId='" + patId + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
     @Id
     @Column(name = "dui_id")
     public int getDuiId() {

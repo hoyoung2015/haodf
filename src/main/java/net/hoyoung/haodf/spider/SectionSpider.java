@@ -2,9 +2,6 @@ package net.hoyoung.haodf.spider;
 
 import net.hoyoung.haodf.entity.Section;
 import net.hoyoung.haodf.utils.HibernateUtils;
-import net.hoyoung.haodf.utils.StringUtils;
-import net.hoyoung.haodf.utils.UUIDGenerater;
-import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -12,9 +9,6 @@ import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 

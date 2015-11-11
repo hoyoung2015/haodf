@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2015-11-10 23:41:07
+Date: 2015-11-11 23:15:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -143,5 +143,13 @@ CREATE TABLE `wenda` (
   `status` int(1) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `con_cat_name` varchar(145) DEFAULT NULL,
-  PRIMARY KEY (`wen_id`)
+  `doc_id` varchar(145) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `disease` varchar(255) DEFAULT NULL,
+  `desc` text,
+  `want_help` text,
+  `hospital` varchar(255) DEFAULT NULL,
+  `hos_dept` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`wen_id`),
+  KEY `ix_doc_id` (`doc_id`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
