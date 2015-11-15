@@ -5,9 +5,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class HibernateUtils {
+	protected static Logger logger = LoggerFactory.getLogger(HibernateUtils.class);
 	private static SessionFactory sessionFactory;
 	// 使用ThreadLocal集合保存当前业务线程中的SESSION
 	private static ThreadLocal<Session> session = new ThreadLocal<Session>();
@@ -37,6 +40,7 @@ public class HibernateUtils {
 	}
 	public static Session getLocalThreadSession() {
 		Session s = session.get();// 获取当前线程下的SESSION
+
 		if (s == null || !s.isOpen()) {
 			s = null;
 			s = getSessionFactory().openSession();// 获取当前线程中的SESSION， 需在在Hibernate.cfg.xml文件，具体请看面的说明

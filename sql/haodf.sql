@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2015-11-11 23:15:52
+Date: 2015-11-12 23:38:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -101,7 +101,7 @@ CREATE TABLE `duihua` (
   `pat_id` varchar(145) DEFAULT NULL,
   `content` text,
   PRIMARY KEY (`dui_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for hospital
@@ -146,10 +146,12 @@ CREATE TABLE `wenda` (
   `doc_id` varchar(145) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `disease` varchar(255) DEFAULT NULL,
-  `desc` text,
+  `description` text,
   `want_help` text,
   `hospital` varchar(255) DEFAULT NULL,
   `hos_dept` varchar(255) DEFAULT NULL,
+  `drug` text,
+  `zhiliao` text,
   PRIMARY KEY (`wen_id`),
   KEY `ix_doc_id` (`doc_id`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

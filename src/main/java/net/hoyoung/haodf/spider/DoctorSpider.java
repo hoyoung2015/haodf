@@ -5,6 +5,9 @@ import net.hoyoung.haodf.entity.Section;
 import net.hoyoung.haodf.utils.HibernateUtils;
 import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -16,15 +19,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by hoyoung on 2015/11/7.
  */
 public class DoctorSpider implements PageProcessor {
-
+    protected Logger logger = LoggerFactory.getLogger(getClass());
+    AtomicInteger atomicInteger = new AtomicInteger();
     public void process(Page page) {
-        Session session = HibernateUtils.openSession();
-        session.beginTransaction();
+        Session session = HibernateUtils.getLocalThreadSession();
+
         List<Selectable> trs = page.getHtml().xpath("//body/div/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[3]/td[2]/table[1]/tbody/tr")
                 .nodes();
         String temp;
@@ -43,18 +48,24 @@ public class DoctorSpider implements PageProcessor {
             temp = doctor.getInfoUrl().substring(doctor.getInfoUrl().lastIndexOf("/") + 1);
             temp = temp.substring(0, temp.lastIndexOf("."));
             doctor.setDocId(temp);
+            session.beginTransaction();
+            try{
+                session.saveOrUpdate(doctor);
+            }catch (ConstraintViolationException e){
+                e.printStackTrace();
+            }finally {
+                session.getTransaction().commit();
+            }
 
-            System.out.println(doctor);
-
-            session.saveOrUpdate(doctor);
         }
-        session.getTransaction().commit();
+
         session.close();
         if(page.getUrl().regex("prov=&p=1$").match()){//第一页
             temp = page.getHtml().xpath("//div[@class=p_bar]/a[@class=p_text]/text()").regex("共\u00A0(\\d+)\u00A0页", 1).get();
             if(temp != null){
                 int totalPage = Integer.parseInt(temp);
                 String secId = (String) page.getRequest().getExtra("secId");
+                atomicInteger.addAndGet(totalPage);
                 for (int i = 2; i <= totalPage; i++) {
                     Request req = new Request("http://haoping.haodf.com/keshi/"+secId+"/daifu.htm?prov=&p="+i);
                     req.putExtra("secId",secId);
@@ -62,6 +73,8 @@ public class DoctorSpider implements PageProcessor {
                 }
             }
         }
+
+        logger.info("last "+atomicInteger.decrementAndGet()+" page");
     }
 
     public Site getSite() {
@@ -84,14 +97,9 @@ public class DoctorSpider implements PageProcessor {
         Request req = new Request("http://haoping.haodf.com/keshi/"+secId+"/daifu.htm?prov=&p=1");
         req.putExtra("secId", secId);
         spider.addRequest(req);
-        spider.thread(6).run();
+        spider.thread(5).run();
 
-        Session session = HibernateUtils.openSession();
-        session.beginTransaction();
-        Section section = (Section) session.get(Section.class,secId);
-        section.setStatus(1);
-        session.getTransaction().commit();
-        session.close();
+
 
         System.out.println("doctor spider over. cost " + (System.currentTimeMillis() - start) / 1000 + " seconds");
 //        System.exit(0);

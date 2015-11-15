@@ -18,18 +18,24 @@ public class DoctorJob {
         long start = System.currentTimeMillis();
         try {
             Method method = DoctorSpider.class.getMethod("main", String[].class);
-            Session session = HibernateUtils.openSession();
-            session.beginTransaction();
+            Session session = HibernateUtils.getLocalThreadSession();
             List<Section> sections = session.createCriteria(Section.class)
                     .add(Restrictions.eq("status", 0))
                     .list();
             int count = 1;
             for (Section section : sections){
-                method.invoke(null, (Object) new String[] { section.getSecId() });
-                System.out.println(section);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>" + count++ + "/" + sections.size());
+                method.invoke(null, (Object) new String[]{section.getSecId()});
+
+                session.beginTransaction();
+                session.createQuery("update Section set status=1 where secId=?")
+                        .setParameter(0,section.getSecId())
+                        .executeUpdate();
+                session.getTransaction().commit();
 //                if(count++==5) break;
 //                break;
             }
+            session.close();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

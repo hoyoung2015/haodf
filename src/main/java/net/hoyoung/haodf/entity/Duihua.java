@@ -1,9 +1,6 @@
 package net.hoyoung.haodf.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -20,6 +17,16 @@ public class Duihua {
     private String docId;
     private String patId;
     private String content;
+    private String duiType;
+    @Basic
+    @Column(name = "dui_type")
+    public String getDuiType() {
+        return duiType;
+    }
+
+    public void setDuiType(String duiType) {
+        this.duiType = duiType;
+    }
 
     @Override
     public String toString() {
@@ -37,6 +44,7 @@ public class Duihua {
     }
 
     @Id
+    @GeneratedValue
     @Column(name = "dui_id")
     public int getDuiId() {
         return duiId;

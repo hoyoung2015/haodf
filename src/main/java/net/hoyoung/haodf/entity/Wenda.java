@@ -17,18 +17,6 @@ public class Wenda {
     private Integer status;
     private Date createTime;
     private String conCatName;
-    private String docId;
-    private String title;
-    private String disease;
-    private String desc;
-    private String wantHelp;
-    private String hospital;
-    private String hosDept;
-    @Basic
-    @Column(name = "title")
-    public String getTitle() {
-        return title;
-    }
 
     @Override
     public String toString() {
@@ -39,14 +27,64 @@ public class Wenda {
                 ", status=" + status +
                 ", createTime=" + createTime +
                 ", conCatName='" + conCatName + '\'' +
+                ", conCatName2='" + conCatName2 + '\'' +
                 ", docId='" + docId + '\'' +
                 ", title='" + title + '\'' +
                 ", disease='" + disease + '\'' +
-                ", desc='" + desc + '\'' +
+                ", description='" + description + '\'' +
                 ", wantHelp='" + wantHelp + '\'' +
                 ", hospital='" + hospital + '\'' +
                 ", hosDept='" + hosDept + '\'' +
+                ", drug='" + drug + '\'' +
+                ", zhiliao='" + zhiliao + '\'' +
                 '}';
+    }
+
+    @Basic
+    @Column(name = "con_cat_name2")
+    public String getConCatName2() {
+        return conCatName2;
+    }
+
+    public void setConCatName2(String conCatName2) {
+        this.conCatName2 = conCatName2;
+    }
+
+    private String conCatName2;
+    private String docId;
+    private String title;
+    private String disease;
+    private String description;
+    private String wantHelp;
+    private String hospital;
+    private String hosDept;
+    private String drug;
+    private String zhiliao;
+
+    @Basic
+    @Column(name = "zhiliao")
+    public String getZhiliao() {
+        return zhiliao;
+    }
+
+    public void setZhiliao(String zhiliao) {
+        this.zhiliao = zhiliao;
+    }
+
+    @Basic
+    @Column(name = "drug")
+    public String getDrug() {
+        return drug;
+    }
+
+    public void setDrug(String drug) {
+        this.drug = drug;
+    }
+
+    @Basic
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
@@ -62,13 +100,13 @@ public class Wenda {
         this.disease = disease;
     }
     @Basic
-    @Column(name = "desc")
-    public String getDesc() {
-        return desc;
+    @Column(name = "description")
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String desc) {
+        this.description = desc;
     }
     @Basic
     @Column(name = "want_help")

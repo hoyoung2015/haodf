@@ -27,27 +27,40 @@ public class DuihuaHtml {
         Html html = new Html(s);
 
         Wenda wenda = new Wenda();
-        //疾病
-        String disease = html.xpath("//div[@class=h_s_info_cons]/h2/text()").get();
-        wenda.setDisease(disease);
-        //病情描述
-        String desc = html.xpath("//div[@class=h_s_info_cons]/div/text()").get();
-        wenda.setDesc(HaoStringUtils.trim(desc));
-        //需要得到的帮助
-        String wantHelp = html.xpath("//div[@class=h_s_info_cons]/p[3]/text()").get();
-        wenda.setWantHelp(HaoStringUtils.trim(wantHelp));
-        //所就诊医院科室
-        String temp = html.xpath("//div[@class=h_s_info_cons]/p[4]/text()").get();
-        temp = HaoStringUtils.trim(temp);
-        if(!StringUtils.isEmpty(temp)){
-            String[] sarr = temp.split(" ");
-            if(sarr.length > 0){
-                wenda.setHospital(sarr[0]);
-            }
-            if(sarr.length > 1){
-                wenda.setHosDept(sarr[1]);
+        for (Selectable div : html.xpath("//div[@class=h_s_cons_info]/div[@class=h_s_info_cons]/div").nodes()){
+            System.out.println(div);
+            if("病情描述：".equals(div.xpath("/div/strong/text()").get())){
+                wenda.setDescription(HaoStringUtils.trim(div.xpath("/div/text()").get()));
+            }else if("治疗情况：".equals(div.xpath("/div/strong/text()").get())){
+                wenda.setZhiliao(HaoStringUtils.trim(div.xpath("/div/text()").get()));
+            }else if("用药情况：".equals(div.xpath("/div/strong/text()").get())){
+                wenda.setDrug(HaoStringUtils.trim(div.xpath("/div/text()").get()));
             }
         }
+        for (Selectable p : html.xpath("//div[@class=h_s_cons_info]/div[@class=h_s_info_cons]/p").nodes()){
+            System.out.println(p);
+            if("希望提供的帮助：".equals(p.xpath("/p/strong/text()").get())){
+                wenda.setWantHelp(p.xpath("/p/text()").get());
+            }else if("所就诊医院科室：".equals(p.xpath("/p/strong/text()").get())){
+                String temp = html.xpath("//div[@class=h_s_info_cons]/p[4]/text()").get();
+                temp = HaoStringUtils.trim(temp);
+                if(!StringUtils.isEmpty(temp)){
+                    String[] sarr = temp.split(" ");
+                    if(sarr.length > 0){
+                        wenda.setHospital(sarr[0]);
+                    }
+                    if(sarr.length > 1){
+                        wenda.setHosDept(sarr[1]);
+                    }
+                }
+            }
+        }
+        //疾病，这里有的有超链接，有的没有
+        String disease = html.xpath("//div[@class=h_s_info_cons]/h2/a/text()").get();
+        if(disease==null){
+            disease = html.xpath("//div[@class=h_s_info_cons]/h2/text()").get();
+        }
+        wenda.setDisease(disease);
         //医生
         String docId = html.xpath("//div[@class=aus_info]/a/@href").regex("/doctor/(\\S+)\\.htm", 1).get();
         wenda.setDocId(docId);
