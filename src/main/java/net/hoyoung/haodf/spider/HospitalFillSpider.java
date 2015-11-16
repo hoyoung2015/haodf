@@ -18,14 +18,18 @@ import us.codecraft.webmagic.selector.Selectable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by hoyoung on 2015/11/7.
  */
 public class HospitalFillSpider implements PageProcessor {
+    public static AtomicInteger index = new AtomicInteger();
     public void process(Page page) {
+        System.out.println("last "+index.decrementAndGet());
         String tmp = page.getHtml().xpath("/html/head/title/text()").get();
         if(StringUtils.isEmpty(tmp)){
             System.out.println("没有收录");
@@ -50,10 +54,28 @@ public class HospitalFillSpider implements PageProcessor {
                 hospital.setLevel(tmp);
             }
             seTmp = page.getHtml().xpath("//div[@class=midtr]/div[@class=lt]/table/tbody/tr[2]/td[2]/text()");
-            hospital.setProvince(seTmp.regex("(\\S+)[市省]\\S+[市区]",1).get());
-            hospital.setCity(seTmp.regex("\\S+[市省](\\S+)[市区]", 1).get());
+
+            tmp = seTmp.regex("(\\S+)[省]\\S+[市]",1).get();
+            if(!StringUtils.isEmpty(tmp)){
+                hospital.setProvince(tmp);
+                hospital.setCity(seTmp.regex("\\S+[省](\\S+)[市]", 1).get());
+            }else {
+                tmp = seTmp.regex("(\\S+)[市]\\S+[区]",1).get();
+                if(!StringUtils.isEmpty(tmp)){
+                    hospital.setProvince(tmp);
+                    hospital.setCity(seTmp.regex("\\S+[市](\\S+)[区]", 1).get());
+                }
+            }
+
+
             System.out.println(hospital);
+            Session session = HibernateUtils.getLocalThreadSession();
+            session.beginTransaction();
+            session.saveOrUpdate(hospital);
+            session.getTransaction().commit();
+            session.close();
         }
+
     }
 
     public Site getSite() {
@@ -61,7 +83,7 @@ public class HospitalFillSpider implements PageProcessor {
     }
     private Site site = Site.me()
             .setRetryTimes(5)
-            .setSleepTime(500)
+            .setSleepTime(1000)
             .addHeader(
                     "User-Agent",
                     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36");
@@ -73,12 +95,17 @@ public class HospitalFillSpider implements PageProcessor {
         Session session = HibernateUtils.getLocalThreadSession();
         List<String> hosIds = session.createSQLQuery("SELECT DISTINCT(a.hos_id) FROM doctor a LEFT JOIN hospital b on a.hos_id=b.hos_id WHERE b.url is NULL")
         .list();
+        index.addAndGet(hosIds.size());
+//
+//        List<String> hosIds = new ArrayList<>();
+//        hosIds.add("DE4r0Fy0C9LuZLvis76KkGccyq6vJdZnb");
+
         for (String s : hosIds){
             Request req = new Request("http://www.haodf.com/hospital/"+s+".htm");
             req.putExtra("hosId",s);
             spider.addRequest(req);
         }
-        spider.thread(5).run();
+        spider.thread(3).run();
         System.out.println("hospital fill spider over. cost " + (System.currentTimeMillis()-start) / 1000 + " seconds");
         System.exit(0);
     }

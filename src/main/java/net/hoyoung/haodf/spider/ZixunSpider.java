@@ -1,5 +1,6 @@
 package net.hoyoung.haodf.spider;
 
+import net.hoyoung.haodf.entity.Doctor;
 import net.hoyoung.haodf.entity.Zixun;
 import net.hoyoung.haodf.utils.HaoStringUtils;
 import net.hoyoung.haodf.utils.HibernateUtils;
@@ -30,6 +31,11 @@ public class ZixunSpider implements PageProcessor {
     protected Logger logger = LoggerFactory.getLogger(getClass());
     AtomicInteger total = new AtomicInteger();
     public void process(Page page) {
+
+        //判断是否为隐私
+
+
+
         String tmp = page.getHtml().xpath("//div[@class='mt10']/div[@class='clearfix pb10 bb_c']/p[@class='fl pt10']/span[@class='pl5 fs']/span[@class='f14 orange1']/text()").get();
         if("0".equals(tmp)){//0个患者
             System.out.println("0 patient");
@@ -115,7 +121,7 @@ public class ZixunSpider implements PageProcessor {
     }
     private Site site = Site.me()
             .setRetryTimes(5)
-            .setSleepTime(500)
+            .setSleepTime(1000)
             .addHeader(
                     "User-Agent",
                     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36");
@@ -134,6 +140,10 @@ public class ZixunSpider implements PageProcessor {
 //        String docId = args[1];
         String homeUrl = "http://sunxiwen.haodf.com/";
         String docId = "DE4r08xQdKSLBDMfyD-CyPwMiuK4";
+
+
+
+
         if(!homeUrl.endsWith("/")){
             homeUrl += "/";
         }
@@ -144,6 +154,13 @@ public class ZixunSpider implements PageProcessor {
                 .addRequest(req)
                 .thread(5)
                 .run();
-        System.out.println(docId+"\t"+docId+"\tover");
+        Session session = HibernateUtils.getLocalThreadSession();
+        session.beginTransaction();
+        session.createQuery("update Doctor set status=2 where docId=?")
+                .setParameter(0,docId)
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        System.out.println(docId + "\t" + docId + "\tover");
     }
 }

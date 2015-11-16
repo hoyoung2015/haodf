@@ -1,0 +1,5 @@
+-- 咨询详情开发注意事项
+1.设为隐私的
+http://www.haodf.com/wenda/sunxiwen_g_1064391482.htm
+要在zixun表里有字段标记出来
+

@@ -25,11 +25,23 @@ public class Zixun {
     private Integer hotGiftFlag;
     private Integer payFlag;
     private Integer tellFlag;
+    private Integer privateFlag;
     private String ext1;
     private String ext2;
     private String ext3;
     private String url;
     private Integer status;
+
+    @Basic
+    @Column(name = "private_flag")
+    public Integer getPrivateFlag() {
+        return privateFlag;
+    }
+
+    public void setPrivateFlag(Integer privateFlag) {
+        this.privateFlag = privateFlag;
+    }
+
     @Basic
     @Column(name = "tell_flag")
     public Integer getTellFlag() {
