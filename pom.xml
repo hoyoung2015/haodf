@@ -62,7 +62,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>net.hoyoung.haodf.spider.DoctorWebSpider</mainClass>
+              <mainClass>net.hoyoung.haodf.job.ZixunJob</mainClass>
             </manifest>
           </archive>
         </configuration>

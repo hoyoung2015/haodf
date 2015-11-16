@@ -4,9 +4,9 @@ import net.hoyoung.haodf.entity.Doctor;
 import net.hoyoung.haodf.entity.Zixun;
 import net.hoyoung.haodf.utils.HaoStringUtils;
 import net.hoyoung.haodf.utils.HibernateUtils;
-import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.GenericJDBCException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Page;
@@ -31,10 +31,6 @@ public class ZixunSpider implements PageProcessor {
     protected Logger logger = LoggerFactory.getLogger(getClass());
     AtomicInteger total = new AtomicInteger();
     public void process(Page page) {
-
-        //判断是否为隐私
-
-
 
         String tmp = page.getHtml().xpath("//div[@class='mt10']/div[@class='clearfix pb10 bb_c']/p[@class='fl pt10']/span[@class='pl5 fs']/span[@class='f14 orange1']/text()").get();
         if("0".equals(tmp)){//0个患者
@@ -90,13 +86,24 @@ public class ZixunSpider implements PageProcessor {
                 session.saveOrUpdate(zixun);
                 session.getTransaction().commit();
             }catch (ConstraintViolationException e){
+                logger.error(e.getMessage());
                 e.printStackTrace();
                 if(session.getTransaction().isActive()){
                     session.close();
                     session = HibernateUtils.getLocalThreadSession();//重新拿session
                 }
             }catch (ParseException e) {
+                logger.error(e.getMessage());
                 e.printStackTrace();
+            }catch (GenericJDBCException e){
+                logger.error(e.getMessage());
+                e.printStackTrace();
+                if(session.getTransaction().isActive()){
+                    session.close();
+                    session = HibernateUtils.getLocalThreadSession();//重新拿session
+                }
+            }catch (Exception e){
+                logger.error(e.getMessage());
             }
         }
         session.close();
@@ -129,20 +136,35 @@ public class ZixunSpider implements PageProcessor {
 
     private static String HOME_URL;
     public static void main(String[] args) {
-//        if(args==null){
-//            System.out.println("args is null");
-//            System.exit(0);
-//        }
-//        if(args.length==0){
-//            System.out.println("args length is 0");
-//        }
-//        String homeUrl = args[0];
-//        String docId = args[1];
-        String homeUrl = "http://sunxiwen.haodf.com/";
-        String docId = "DE4r08xQdKSLBDMfyD-CyPwMiuK4";
+        if(args==null){
+            System.out.println("args is null");
+            System.exit(0);
+        }
+        if(args.length==0){
+            System.out.println("args length is 0");
+        }
+        String docId = args[0];
+
+//        String docId = "DE4r08xQdKSLBDMfyD-CyPwMiuK4";
+        Session session = HibernateUtils.getLocalThreadSession();
+        session.beginTransaction();
+        System.out.println(">>>>>>>>>>>"+session.createSQLQuery("SET NAMES 'utf8mb4'").executeUpdate());
+        session.getTransaction().commit();
 
 
-
+        Doctor doctor = (Doctor) session.createQuery("from Doctor where docId=?")
+                .setParameter(0,docId)
+                .uniqueResult();
+        session.close();
+        if(doctor==null){
+            System.err.println("doctor is not exists");
+            System.exit(0);
+        }
+        if(doctor.getStatus()>1){
+            System.out.println("doctor "+doctor.getDocName()+" has crawled");
+            return;
+        }
+        String homeUrl = doctor.getHomeUrl();
 
         if(!homeUrl.endsWith("/")){
             homeUrl += "/";
@@ -154,7 +176,7 @@ public class ZixunSpider implements PageProcessor {
                 .addRequest(req)
                 .thread(5)
                 .run();
-        Session session = HibernateUtils.getLocalThreadSession();
+        session = HibernateUtils.getLocalThreadSession();
         session.beginTransaction();
         session.createQuery("update Doctor set status=2 where docId=?")
                 .setParameter(0,docId)

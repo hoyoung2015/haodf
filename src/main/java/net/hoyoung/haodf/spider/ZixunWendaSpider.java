@@ -133,6 +133,11 @@ public class ZixunWendaSpider implements PageProcessor {
 
 
     public static void main(String[] args) {
+        Session session = HibernateUtils.getLocalThreadSession();
+        session.beginTransaction();
+        System.out.println(">>>>>>>>>>>"+session.createSQLQuery("SET NAMES 'utf8mb4'").executeUpdate());
+        session.getTransaction().commit();
+        session.close();
         Spider.create(new ZixunWendaSpider())
                 .setScheduler(new ZixunWendaScheduler())
                 .thread(3)
