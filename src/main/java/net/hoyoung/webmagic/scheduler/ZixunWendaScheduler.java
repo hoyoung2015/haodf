@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class ZixunWendaScheduler implements Scheduler {
     protected Logger logger = LoggerFactory.getLogger(getClass());
-    private BlockingQueue<Request> requests = new LinkedBlockingQueue<>();
+    private BlockingQueue<Request> requests = new LinkedBlockingQueue<Request>();
     private AtomicLong totalLast = new AtomicLong();
     long start;
     public ZixunWendaScheduler() {
