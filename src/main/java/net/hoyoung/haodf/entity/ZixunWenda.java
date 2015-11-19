@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "zixun_wenda", schema = "", catalog = "haodf")
 public class ZixunWenda {
-    private int zwId;
+    private String zwId;
     private String zixunId;
     private String zwType;
     private Date createTime;
@@ -21,6 +21,13 @@ public class ZixunWenda {
     private String ext2;
     private String ext3;
     private String html;
+
+    public ZixunWenda() {
+    }
+
+    public ZixunWenda(String zwId) {
+        this.zwId = zwId;
+    }
 
     @Override
     public String toString() {
@@ -51,13 +58,12 @@ public class ZixunWenda {
     }
 
     @Id
-    @GeneratedValue
     @Column(name = "zw_id")
-    public int getZwId() {
+    public String getZwId() {
         return zwId;
     }
 
-    public void setZwId(int zwId) {
+    public void setZwId(String zwId) {
         this.zwId = zwId;
     }
 
@@ -161,41 +167,6 @@ public class ZixunWenda {
         this.ext3 = ext3;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        ZixunWenda that = (ZixunWenda) o;
 
-        if (zwId != that.zwId) return false;
-        if (content != null ? !content.equals(that.content) : that.content != null) return false;
-        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-        if (docId != null ? !docId.equals(that.docId) : that.docId != null) return false;
-        if (ext1 != null ? !ext1.equals(that.ext1) : that.ext1 != null) return false;
-        if (ext2 != null ? !ext2.equals(that.ext2) : that.ext2 != null) return false;
-        if (ext3 != null ? !ext3.equals(that.ext3) : that.ext3 != null) return false;
-        if (patId != null ? !patId.equals(that.patId) : that.patId != null) return false;
-        if (publishTime != null ? !publishTime.equals(that.publishTime) : that.publishTime != null) return false;
-        if (zixunId != null ? !zixunId.equals(that.zixunId) : that.zixunId != null) return false;
-        if (zwType != null ? !zwType.equals(that.zwType) : that.zwType != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = zwId;
-        result = 31 * result + (zixunId != null ? zixunId.hashCode() : 0);
-        result = 31 * result + (zwType != null ? zwType.hashCode() : 0);
-        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (publishTime != null ? publishTime.hashCode() : 0);
-        result = 31 * result + (content != null ? content.hashCode() : 0);
-        result = 31 * result + (docId != null ? docId.hashCode() : 0);
-        result = 31 * result + (patId != null ? patId.hashCode() : 0);
-        result = 31 * result + (ext1 != null ? ext1.hashCode() : 0);
-        result = 31 * result + (ext2 != null ? ext2.hashCode() : 0);
-        result = 31 * result + (ext3 != null ? ext3.hashCode() : 0);
-        return result;
-    }
 }

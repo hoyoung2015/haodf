@@ -25,12 +25,16 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/16.
+ * net.hoyoung.haodf.spider.ZixunWendaSpider
  */
 public class ZixunWendaSpider implements PageProcessor {
     protected Logger logger = LoggerFactory.getLogger(getClass());
     @Override
     public void process(Page page) {
-        Session session = HibernateUtils.getLocalThreadSession();;
+        Session session = HibernateUtils.getLocalThreadSession();
+        session.beginTransaction();
+        session.createSQLQuery("SET NAMES 'utf8mb4'").executeUpdate();
+        session.getTransaction().commit();
         try{
             Selectable seTmp;
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -54,23 +58,13 @@ public class ZixunWendaSpider implements PageProcessor {
             seTmp = page.getHtml().xpath("//div[@class=page_main]");
             String tmp = seTmp.xpath("/div/div/a[@class=page_cur]/text()").get();//这里这能判断有没有分页
             String nextUrl = null;
-            boolean dellOld = false;
             boolean allClear = false;
+            int pageNow = 1;
             if(!StringUtils.isEmpty(tmp)){//有分页代码
-                int pageNow = Integer.valueOf(tmp);
-                if(pageNow==1){//第一页，删除旧的
-                    dellOld = true;
-                }
+                pageNow = Integer.valueOf(tmp);
                 nextUrl = seTmp.links().regex(".*htm\\?p="+(++pageNow)+"$").get();//判断是否到达最后一页
-            }else {//没有分页代码
-                dellOld = true;
             }
-            if(dellOld){//删除旧的
-                logger.info("删除旧的");
-                session.createQuery("delete ZixunWenda where zixunId=?")
-                        .setParameter(0,zixun.getZixunId())
-                        .executeUpdate();
-            }
+
             if(!StringUtils.isEmpty(nextUrl)){//有下一页
                 logger.info("has next page:"+nextUrl);
                 Request request = new Request(nextUrl);
@@ -86,8 +80,9 @@ public class ZixunWendaSpider implements PageProcessor {
              */
 
             List<Selectable> divs = page.getHtml().xpath("//div[@class=zzx_yh_stream]").nodes();
+
             for (int i = 0; i < divs.size(); i++) {
-                ZixunWenda zixunWenda = new ZixunWenda();
+                ZixunWenda zixunWenda = new ZixunWenda(zixun.getZixunId()+"_"+pageNow+"_"+i);
                 zixunWenda.setCreateTime(new Date());
                 zixunWenda.setZixunId(zixun.getZixunId());
                 Selectable div = divs.get(i);
@@ -108,7 +103,7 @@ public class ZixunWendaSpider implements PageProcessor {
                     //这个content可能为空，因为隐私
 //                zixunWenda.setContent("待定");
                 }
-                session.save(zixunWenda);
+                session.saveOrUpdate(zixunWenda);
             }
             if(allClear){
                 logger.info("状态设为已爬取");
