@@ -6,6 +6,7 @@ import net.hoyoung.haodf.utils.HibernateUtils;
 import net.hoyoung.webmagic.scheduler.ZixunWendaScheduler;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Session;
+import org.hibernate.exception.GenericJDBCException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Page;
@@ -108,7 +109,13 @@ public class ZixunWendaSpider implements PageProcessor {
                 //这个content可能为空，因为隐私
 //                zixunWenda.setContent("待定");
             }
-            session.save(zixunWenda);
+            try{
+                session.save(zixunWenda);
+            }catch (GenericJDBCException e){
+                e.printStackTrace();
+                System.exit(0);
+            }
+
         }
         if(allClear){
             logger.info("状态设为已爬取");
@@ -133,6 +140,11 @@ public class ZixunWendaSpider implements PageProcessor {
 
 
     public static void main(String[] args) {
+        Session session = HibernateUtils.getLocalThreadSession();
+        session.beginTransaction();
+        System.out.println(">>>>>>>>>>>"+session.createSQLQuery("SET NAMES 'utf8mb4'").executeUpdate());
+        session.getTransaction().commit();
+        session.close();
         Spider.create(new ZixunWendaSpider())
                 .setScheduler(new ZixunWendaScheduler())
                 .thread(3)

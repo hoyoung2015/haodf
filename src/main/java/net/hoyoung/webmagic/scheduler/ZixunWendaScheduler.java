@@ -28,6 +28,7 @@ public class ZixunWendaScheduler implements Scheduler {
         Session session = HibernateUtils.getLocalThreadSession();
         Long count = (Long) session.createQuery("select count(*) from Zixun where status=0").uniqueResult();
         totalLast.addAndGet(count);
+
         session.clear();
     }
 
