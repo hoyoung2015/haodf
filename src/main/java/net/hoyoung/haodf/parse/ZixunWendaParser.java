@@ -23,7 +23,7 @@ public class ZixunWendaParser {
         Session session = HibernateUtils.getLocalThreadSession();
 
 //        String where = "where content is null and private_chat=0";
-        String where = "where zw_type is null";
+        String where = "where content is null and private_chat=0";
         BigInteger countB = (BigInteger) session.createSQLQuery("SELECT count(zw_id) FROM zixun_wenda "+where)
                 .uniqueResult();
         int count = countB.intValue();
@@ -76,7 +76,7 @@ public class ZixunWendaParser {
 //            System.out.println("付费咨询");
             zixunWenda.setZwType("付费咨询");
             zixunWenda.setContent(HaoStringUtils.replaceAndTrim(HtmlRegexpUtil.filterHtml(html.xpath("//p[@class='h_s_cons_main']").get())," ",""));
-        }else if(html.xpath("//h3[@class=h_s_cons_title]").regex(".*患者报到.*").match()){
+        }else if(html.xpath("//h3[@class=h_s_cons_title]").regex(".*住院患者报到$").match()){
 //            System.out.println("患者报到");
             zixunWenda.setZwType("患者报到");
             zixunWenda.setContent(HaoStringUtils.replaceAndTrim(HtmlRegexpUtil.filterHtml(html.xpath("//div[@class='h_s_cons']").get()), " ", ""));
@@ -85,9 +85,13 @@ public class ZixunWendaParser {
 //            System.out.println("医生普通对话");
             zixunWenda.setZwType("普通对话");
             zixunWenda.setContent(HaoStringUtils.replaceAndTrim(HtmlRegexpUtil.filterHtml(html.xpath("//h3[@class='h_s_cons_title']").get()), " ", ""));
+        }else if(html.xpath("//div[@class='h_s_cons_main']/p/text()").regex("^我已填写了调查表.*").match()){
+            zixunWenda.setZwType("填调查表");
+            zixunWenda.setContent(HaoStringUtils.replaceAndTrim(HtmlRegexpUtil.filterHtml(html.xpath("//div[@class='h_s_cons_main']").get())," ",""));
         }else {
 //            System.out.println("病人普通对话");
             zixunWenda.setZwType("普通对话");
+
             zixunWenda.setContent(HaoStringUtils.replaceAndTrim(HtmlRegexpUtil.filterHtml(html.xpath("//pre[@class='h_s_cons_main']").get()), " ", ""));
         }
         if(html.xpath("//h3[@class=h_s_cons_title]").regex(".*大夫通知.*").match()){
@@ -114,7 +118,7 @@ public class ZixunWendaParser {
             //患者资料隐私
             zixunWenda.setPrivateChat(1);
         }
-        if(zixunWenda.getContent()!=null){
+        if(zixunWenda.getContent()!=null) {
             zixunWenda.setContentSize(zixunWenda.getContent().length());
         }else {
             zixunWenda.setContentSize(0);
