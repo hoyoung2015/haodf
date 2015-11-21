@@ -1,0 +1,49 @@
+<div class="zzx_yh_stream">
+ <!--  头像区 -->
+ <div class="stream_yh_left">
+  <div class="yh_l_pics">
+   <img src="http://i1.hdfimg.com/doctorzone/images/patient_head.png" />
+  </div>
+  <div class="yh_l_huan">
+   h***
+  </div>
+  <div class="yh_l_states">
+    状态：
+   <span>就诊后</span>
+  </div>
+  <div class="yh_l_times">
+   2015-09-17
+  </div>
+ </div>
+ <!-- end 头像区 -->
+ <!-- 卡片区 -->
+ <div class="stream_yh_right">
+  <!-- 背景 -->
+  <div class="yh_r_t_icon">
+   <img src="http://i1.hdfimg.com/doctorzone/images/huan.png" />
+  </div>
+  <div class="yh_l_icon">
+   <img src="http://i1.hdfimg.com/doctorzone/images/lcorner.png" />
+  </div>
+  <!-- end 背景 -->
+  <!-- 内容  -->
+  <div class="h_s_cons">
+   <pre class="h_s_cons_main">
+曹医生您好，请问您下周一下午出诊吗？我家是东北的，很远，所以麻烦您在家这里给我回个信息可以吗？谢谢您 <br />                   </pre>
+  </div>
+  <!-- end 内容 -->
+  <style type="text/css">
+.pp{
+    float:left;
+    width:50%;
+    height: 18px; padding-top: 12px; font-size: 12px;
+}
+</style>
+  <!-- 时间戳 -->
+  <div class="h_s_time ">
+    发表于：2015-09-17 19:41:03
+  </div>
+  <!-- end 时间戳 -->
+ </div>
+ <!-- end 卡片区 -->
+</div>

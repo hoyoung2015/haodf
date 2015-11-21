@@ -29,6 +29,10 @@ public class HaoStringUtils {
         if (s!=null) return s.trim();
         return s;
     }
+    public static final String replaceAndTrim(String source,String old,String now){
+        if(source==null) return source;
+        return  source.replace(old,now).trim();
+    }
     public static final int parseInt(String input){
         if(input!=null) return Integer.valueOf(input);
         return 0;
