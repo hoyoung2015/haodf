@@ -33,5 +33,6 @@
         <mapping class="net.hoyoung.haodf.entity.Duihua"/>
         <mapping class="net.hoyoung.haodf.entity.Zixun"/>
         <mapping class="net.hoyoung.haodf.entity.ZixunWenda"/>
+        <mapping class="net.hoyoung.haodf.entity.Doc"/>
     </session-factory>
 </hibernate-configuration>
