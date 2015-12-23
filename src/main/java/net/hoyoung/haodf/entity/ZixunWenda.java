@@ -25,14 +25,14 @@ public class ZixunWenda {
     private Integer privateChat;
     private Integer showBingli;
     private Integer contentSize;
-    @Basic
-    @Column(name = "content_size")
-    public Integer getContentSize() {
-        return contentSize;
-    }
+    private Integer replyInter;
 
-    public void setContentSize(Integer contentSize) {
-        this.contentSize = contentSize;
+    public ZixunWenda(String zwId, String zixunId, Date publishTime, String docId, String patId) {
+        this.zwId = zwId;
+        this.zixunId = zixunId;
+        this.publishTime = publishTime;
+        this.docId = docId;
+        this.patId = patId;
     }
 
     @Override
@@ -53,7 +53,28 @@ public class ZixunWenda {
                 ", cureState='" + cureState + '\'' +
                 ", privateChat=" + privateChat +
                 ", showBingli=" + showBingli +
+                ", contentSize=" + contentSize +
+                ", replyInter=" + replyInter +
                 '}';
+    }
+    @Basic
+    @Column(name = "reply_inter")
+    public Integer getReplyInter() {
+        return replyInter;
+    }
+
+    public void setReplyInter(Integer replyInter) {
+        this.replyInter = replyInter;
+    }
+
+    @Basic
+    @Column(name = "content_size")
+    public Integer getContentSize() {
+        return contentSize;
+    }
+
+    public void setContentSize(Integer contentSize) {
+        this.contentSize = contentSize;
     }
 
     @Basic
