@@ -21,19 +21,25 @@ public class ZixunWenda {
     private String ext2;
     private String ext3;
     private String html;
-
-    public ZixunWenda() {
+    private String cureState;
+    private Integer privateChat;
+    private Integer showBingli;
+    private Integer contentSize;
+    @Basic
+    @Column(name = "content_size")
+    public Integer getContentSize() {
+        return contentSize;
     }
 
-    public ZixunWenda(String zwId) {
-        this.zwId = zwId;
+    public void setContentSize(Integer contentSize) {
+        this.contentSize = contentSize;
     }
 
     @Override
     public String toString() {
         return "ZixunWenda{" +
-                "zwId=" + zwId +
-                ", zixunId=" + zixunId +
+                "zwId='" + zwId + '\'' +
+                ", zixunId='" + zixunId + '\'' +
                 ", zwType='" + zwType + '\'' +
                 ", createTime=" + createTime +
                 ", publishTime=" + publishTime +
@@ -44,7 +50,47 @@ public class ZixunWenda {
                 ", ext2='" + ext2 + '\'' +
                 ", ext3='" + ext3 + '\'' +
                 ", html='" + html + '\'' +
+                ", cureState='" + cureState + '\'' +
+                ", privateChat=" + privateChat +
+                ", showBingli=" + showBingli +
                 '}';
+    }
+
+    @Basic
+    @Column(name = "show_bingli")
+    public Integer getShowBingli() {
+        return showBingli;
+    }
+
+    public void setShowBingli(Integer showBingli) {
+        this.showBingli = showBingli;
+    }
+
+    @Basic
+    @Column(name = "private_chat")
+    public Integer getPrivateChat() {
+        return privateChat;
+    }
+
+    public void setPrivateChat(Integer privateChat) {
+        this.privateChat = privateChat;
+    }
+
+    @Basic
+    @Column(name = "cure_state")
+    public String getCureState() {
+        return cureState;
+    }
+
+    public void setCureState(String cureState) {
+        this.cureState = cureState;
+    }
+
+    public ZixunWenda() {
+    }
+
+    public ZixunWenda(String zwId) {
+        this.zwId = zwId;
     }
 
     @Basic
